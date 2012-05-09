@@ -29,7 +29,7 @@ directory to your web root:
     -   textpattern
     -   etc…
 
-Install and activate the plugin ().
+Install and activate the plugin (spf_codemirror_v0.1.txt - inside the unzipped folder).
 
 ### History
 
