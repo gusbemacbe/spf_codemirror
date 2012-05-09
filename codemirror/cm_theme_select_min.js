@@ -1,0 +1,2 @@
+/* CodeMirror 2.24 codemirror_theme_select.js=>minified */
+var input=document.getElementById("select");function selectTheme(){var theme=input.options[input.selectedIndex].innerHTML;editor.setOption("theme",theme)}var choice=document.location.search&&document.location.search.slice(1);if(choice){input.value=choice;editor.setOption("theme",choice)}
