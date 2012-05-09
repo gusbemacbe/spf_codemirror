@@ -1,6 +1,8 @@
 spf\_codemirror
 ===============
 
+A syntax-highlighting plugin for Textpattern admin.
+
 ### Background
 
 This is a quick update to [mrd\_codeMirror][] which, in turn, was
