@@ -1,6 +1,6 @@
 h1. spf_codemirror
 
-p. A syntax-highlighting plugin for Textpattern admin.
+p. A syntax-highlighting plugin for "Textpattern":http://textpattern.com admin.
 
 
 h2. Background
