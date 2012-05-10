@@ -1,3 +1,4 @@
+<?php
 /**
  * spf_codemirror - CodeMirror syntax-highlighting for Textpattern
  *
@@ -160,3 +161,4 @@ $select = '<p style="position:fixed;right:20px;bottom:20px">CodeMirror theme: <s
 
 echo $select;
 }
+?>
