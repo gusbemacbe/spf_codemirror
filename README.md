@@ -3,16 +3,22 @@ spf\_codemirror
 
 A syntax-highlighting plugin for Textpattern admin.
 
+* * * * *
+
 ### Background
 
 This is a quick update to Dale Chapman's [mrd\_codeMirror][] which, in turn, was
 prompted by my [CodeMirror admin theme][], and [CodeMirror][].
+
+* * * * *
 
 ### Description
 
 It uses [CodeMirror][] to syntax-highlight code textareas in
 Textpattern’s Forms, Pages and Style tabs - plus JavaScript ([spf\_js][]
 required) and external files ([spf\_ext][] required).
+
+* * * * *
 
 ### Installation
 
@@ -32,6 +38,8 @@ directory to your web root:
     -   etc…
 
 Install and activate the plugin (spf_codemirror_v0.1.txt - inside the unzipped folder).
+
+* * * * *
 
 ### History
 
