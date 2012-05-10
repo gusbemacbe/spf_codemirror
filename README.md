@@ -5,7 +5,7 @@ A syntax-highlighting plugin for Textpattern admin.
 
 ### Background
 
-This is a quick update to [mrd\_codeMirror][] which, in turn, was
+This is a quick update to Dale Chapman's [mrd\_codeMirror][] which, in turn, was
 prompted by my [CodeMirror admin theme][], and [CodeMirror][].
 
 ### Description
