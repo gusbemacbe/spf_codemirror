@@ -1,0 +1,4 @@
+spf_codemirror instructions:
+
+1. Upload the containing 'codemirror' directory to your web root;
+2. Install and activate the plugin (spf_codemirror_v0.1.txt - inside the unzipped folder).
