@@ -34,6 +34,10 @@ h2. Notes & issues
 # Theme selector is bottom-right: not the most elegant solution but works consistently across most admin themes (specifically Classic, Hive, Steel).
 
 
-h2. History
+h2. Version history
 
-May 2012 - version 0.1
+0.2 - May 2012
+* Changed load order (to allow interaction with other plugins).
+
+0.1 - May 2012
+* first release.
