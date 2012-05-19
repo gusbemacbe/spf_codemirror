@@ -1,4 +1,54 @@
 <?php
+
+// This is a PLUGIN TEMPLATE.
+
+// Copy this file to a new name like abc_myplugin.php.  Edit the code, then
+// run this file at the command line to produce a plugin for distribution:
+// $ php abc_myplugin.php > abc_myplugin-0.1.txt
+
+// Plugin name is optional.  If unset, it will be extracted from the current
+// file name. Plugin names should start with a three letter prefix which is
+// unique and reserved for each plugin author ("abc" is just an example).
+// Uncomment and edit this line to override:
+$plugin['name'] = 'spf_codemirror';
+
+// Allow raw HTML help, as opposed to Textile.
+// 0 = Plugin help is in Textile format, no raw HTML allowed (default).
+// 1 = Plugin help is in raw HTML.  Not recommended.
+# $plugin['allow_html_help'] = 1;
+
+$plugin['version'] = '0.2';
+$plugin['author'] = 'Simon Finch';
+$plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
+$plugin['description'] = 'CodeMirror syntax-highlighting in pages, forms, css, JavaScript and external files';
+
+// Plugin load order:
+// The default value of 5 would fit most plugins, while for instance comment
+// spam evaluators or URL redirectors would probably want to run earlier
+// (1...4) to prepare the environment for everything else that follows.
+// Values 6...9 should be considered for plugins which would work late.
+// This order is user-overrideable.
+$plugin['order'] = '9';
+
+// Plugin 'type' defines where the plugin is loaded
+// 0 = public       : only on the public side of the website (default)
+// 1 = public+admin : on both the public and admin side
+// 2 = library      : only when include_plugin() or require_plugin() is called
+// 3 = admin        : only on the admin side
+$plugin['type'] = '3';
+
+// Plugin "flags" signal the presence of optional capabilities to the core plugin loader.
+// Use an appropriately OR-ed combination of these flags.
+// The four high-order bits 0xf000 are available for this plugin's private use
+if (!defined('PLUGIN_HAS_PREFS')) define('PLUGIN_HAS_PREFS', 0x0001); // This plugin wants to receive "plugin_prefs.{$plugin['name']}" events
+if (!defined('PLUGIN_LIFECYCLE_NOTIFY')) define('PLUGIN_LIFECYCLE_NOTIFY', 0x0002); // This plugin wants to receive "plugin_lifecycle.{$plugin['name']}" events
+
+$plugin['flags'] = '0';
+
+if (!defined('txpinterface'))
+        @include_once('zem_tpl.php');
+
+# --- BEGIN PLUGIN CODE ---
 /**
  * spf_codemirror - CodeMirror syntax-highlighting for Textpattern
  *
@@ -9,7 +59,7 @@
  *
  * a quick update to mrd_codeMirror - thanks Dale
  *
- * Version 0.1 -- 09 May 2012
+ * Version 0.2 -- 19 May 2012
  */
 
 if (@txpinterface == 'admin') {
@@ -160,5 +210,61 @@ $select = '<p style="position:fixed;right:20px;bottom:20px">CodeMirror theme: <s
 </p>';
 
 echo $select;
+}
+# --- END PLUGIN CODE ---
+if (0) {
+?>
+<!--
+# --- BEGIN PLUGIN HELP ---
+<h1>spf_codemirror</h1>
+
+<p>A syntax-highlighting plugin for Textpattern admin.</p>
+
+<h2>Background:</h2>
+
+<p>This is a quick update to Dale Chapman’s <a href="http://forum.textpattern.com/viewtopic.php?id=38015">mrd_codeMirror</a> which, in turn, was prompted by my <a href="http://forum.textpattern.com/viewtopic.php?id=37957">CodeMirror admin theme</a> and, of course, Marijn Haverbeke’s <a href="http://codemirror.net">CodeMirror</a>.</p>
+<p>Thanks to Dale and Marijn.</p>
+
+
+<h2>Features:</h2>
+<ol>
+<li>Adds <a href="http://codemirror.net">CodeMirror</a> syntax-highlighting to textareas in Textpattern’s Forms, Pages and Style tabs;</li>
+<li>Also to JavaScript tab (<a href="http://forum.textpattern.com/viewtopic.php?id=37849">spf_js</a> required) and External Files tab (<a href="http://forum.textpattern.com/viewtopic.php?id=38032">spf_ext</a> required);</li>
+<li>Theme selector.</li>
+</ol>
+
+
+<h2>Installation:</h2>
+<ol>
+<li><a href="https://github.com/spiffin/spf_codemirror/zipball/master">DOWNLOAD</a> and unzip;</li>
+<li>Upload the containing ‘codemirror’ directory to your web root;</li>
+<li>Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).</li>
+</ol>
+
+
+<h2>Notes &amp; issues:</h2>
+<ol>
+<li>Included .js and .css files have been combined and minified (original filenames are referenced in header);</li>
+<li>Remora drop-down menus are still hidden behind the textarea;</li>
+<li>Textarea resizing is disabled (enabling gives erratic results);</li>
+<li>Plugins editor not supported;</li>
+<li>Code-folding requires input to the Javascript (which lines to fold) and is therefore disabled;</li>
+<li>Theme selector is bottom-right: not the most elegant solution but works consistently across most admin themes (specifically Classic, Hive, Steel).</li>
+</ol>
+
+
+<h2>Version history:</h2>
+<p>0.2 - May 2012</p>
+<ul>
+<li>Changed load order (to allow interaction with other plugins).</li>
+</ul>
+
+<p>0.1 - May 2012</p>
+<ul>
+<li>first release.</li>
+</ul>
+# --- END PLUGIN HELP ---
+-->
+<?php
 }
 ?>
