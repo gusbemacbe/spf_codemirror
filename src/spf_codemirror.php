@@ -17,7 +17,7 @@ $plugin['name'] = 'spf_codemirror';
 // 1 = Plugin help is in raw HTML.  Not recommended.
 # $plugin['allow_html_help'] = 1;
 
-$plugin['version'] = '0.2';
+$plugin['version'] = '0.3';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
 $plugin['description'] = 'CodeMirror syntax-highlighting in pages, forms, css, JavaScript and external files';
@@ -57,9 +57,9 @@ if (!defined('txpinterface'))
  * Licensed under GNU General Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * a quick update to mrd_codeMirror - thanks Dale
+ * Thanks to Marijn (CodeMirror), Sergey (Zen Coding), Dale (mrd_codeMirror)
  *
- * Version 0.2 -- 19 May 2012
+ * Version 0.3 -- 26 May 2012
  */
 
 if (@txpinterface == 'admin') {
@@ -67,13 +67,14 @@ if (@txpinterface == 'admin') {
     register_callback('spf_textarea_form', 'form');
     register_callback('spf_textarea_css', 'css');
     register_callback('spf_textarea_js', 'spf_js');
-    register_callback('spf_textarea_ext', 'spf_ext');    
+    register_callback('spf_textarea_ext', 'spf_ext');
 }
 
 function spf_textarea_page($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>';
+$js = '<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
+    <script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>';
 $js .= '<script type="text/javascript">';
 
 $js .= <<<EOF
@@ -82,11 +83,13 @@ var editor = CodeMirror.fromTextArea(document.getElementById("html"), {
     tabMode: "indent",
     lineWrapping: true,
     lineNumbers: true,
-    extraKeys: {
-    "'>'": function(cm) { cm.closeTag(cm, '>'); },
-    "'/'": function(cm) { cm.closeTag(cm, '/'); }
-    },
-    theme: "ambiance"
+    theme: "ambiance",
+    syntax: 'html',   /* define Zen Coding syntax */
+    profile: 'xhtml', /* define Zen Coding output profile */
+    // send all key events to Zen Coding
+        onKeyEvent: function() {
+            return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
+        }
 });
 EOF;
 
@@ -98,7 +101,8 @@ echo $js;
 function spf_textarea_form($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>';
+$js = '<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
+    <script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>';
 $js .= '<script type="text/javascript">';
 
 $js .= <<<EOF
@@ -107,11 +111,13 @@ var editor = CodeMirror.fromTextArea(document.getElementById("form"), {
     tabMode: "indent",
     lineWrapping: true,
     lineNumbers: true,
-    extraKeys: {
-    "'>'": function(cm) { cm.closeTag(cm, '>'); },
-    "'/'": function(cm) { cm.closeTag(cm, '/'); }
-    },
-    theme: "ambiance"
+    theme: "ambiance",
+    syntax: 'html',   /* define Zen Coding syntax */
+    profile: 'xhtml', /* define Zen Coding output profile */
+    // send all key events to Zen Coding
+        onKeyEvent: function() {
+            return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
+        }
 });
 EOF;
 
@@ -128,6 +134,7 @@ $js .= '<script type="text/javascript">';
 
 $js .= <<<EOF
 var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
+    mode: "text/css",
     lineWrapping: true,
     lineNumbers : true,
     matchBrackets : true,
@@ -163,7 +170,8 @@ echo $js;
 function spf_textarea_ext($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_php_min.js"></script>';
+$js = '<script type="text/javascript" src="/codemirror/cm_php_min.js"></script>
+    <script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>';
 $js .= '<script type="text/javascript">';
 
 $js .= <<<EOF
@@ -176,7 +184,13 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
     indentWithTabs: true,
     enterMode: "keep",
     tabMode: "shift",
-    theme: "ambiance"
+    theme: "ambiance",
+    syntax: 'html',   /* define Zen Coding syntax */
+    profile: 'xhtml', /* define Zen Coding output profile */
+    // send all key events to Zen Coding
+        onKeyEvent: function() {
+            return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
+        }
 });
 EOF;
 
@@ -218,12 +232,12 @@ if (0) {
 # --- BEGIN PLUGIN HELP ---
 <h1>spf_codemirror</h1>
 
-<p>A syntax-highlighting plugin for Textpattern admin.</p>
+<p>A syntax-highlighting plugin for Textpattern admin - now with <a href="http://code.google.com/p/zen-coding/">Zen Coding</a> (Pages & Forms).</p>
 
 <h2>Background:</h2>
 
-<p>This is a quick update to Dale Chapman’s <a href="http://forum.textpattern.com/viewtopic.php?id=38015">mrd_codeMirror</a> which, in turn, was prompted by my <a href="http://forum.textpattern.com/viewtopic.php?id=37957">CodeMirror admin theme</a> and, of course, Marijn Haverbeke’s <a href="http://codemirror.net">CodeMirror</a>.</p>
-<p>Thanks to Dale and Marijn.</p>
+<p>This was a quick update to Dale Chapman’s <a href="http://forum.textpattern.com/viewtopic.php?id=38015">mrd_codeMirror</a> which, in turn, was prompted by my <a href="http://forum.textpattern.com/viewtopic.php?id=37957">CodeMirror admin theme</a> and, of course, Marijn Haverbeke’s <a href="http://codemirror.net">CodeMirror</a>. Now with <a href="http://code.google.com/p/zen-coding/">Zen Coding</a> goodness thrown in.</p>
+<p>Thanks to Marijn, Sergey and Dale.</p>
 
 
 <h2>Features:</h2>
@@ -231,6 +245,7 @@ if (0) {
 <li>Adds <a href="http://codemirror.net">CodeMirror</a> syntax-highlighting to textareas in Textpattern’s Forms, Pages and Style tabs;</li>
 <li>Also to JavaScript tab (<a href="http://forum.textpattern.com/viewtopic.php?id=37849">spf_js</a> required) and External Files tab (<a href="http://forum.textpattern.com/viewtopic.php?id=38032">spf_ext</a> required);</li>
 <li>Theme selector.</li>
+<li>HTML shorthand/code-completion now added to Pages & Forms courtesy of <a href="http://code.google.com/p/zen-coding/">Zen Coding</a>.
 </ol>
 
 
@@ -239,6 +254,13 @@ if (0) {
 <li><a href="https://github.com/spiffin/spf_codemirror/zipball/master">DOWNLOAD</a> and unzip;</li>
 <li>Upload the containing ‘codemirror’ directory to your web root;</li>
 <li>Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).</li>
+</ol>
+
+<h2>Zen Coding notes:</h2>
+<ol>
+<li>Initiate completion by hitting TAB (or Cmd+E).</li>
+<li>Try typing this: <code>div#page>div.logo+ul#navigation>li*5>a</code> and then TAB.</li>
+<li>Works with opening and closing txp tags (try typing <code>txp:if_section</code> and then TAB).</li>
 </ol>
 
 
@@ -250,10 +272,18 @@ if (0) {
 <li>Plugins editor not supported;</li>
 <li>Code-folding requires input to the Javascript (which lines to fold) and is therefore disabled;</li>
 <li>Theme selector is bottom-right: not the most elegant solution but works consistently across most admin themes (specifically Classic, Hive, Steel).</li>
+<li>Zen Coding is only available for HTML (Pages & Forms).</li>
 </ol>
 
 
 <h2>Version history:</h2>
+
+<p>0.3 - May 2012</p>
+<ul>
+<li>Added <a href="http://code.google.com/p/zen-coding/">Zen Coding</a> code completion to Pages and Forms (HTML).</li>
+<li>Upgraded to <a href="http://codemirror.net/">CodeMirror</a> 2.25.</li>
+</ul>
+
 <p>0.2 - May 2012</p>
 <ul>
 <li>Changed load order (to allow interaction with other plugins).</li>
