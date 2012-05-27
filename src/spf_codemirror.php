@@ -17,10 +17,10 @@ $plugin['name'] = 'spf_codemirror';
 // 1 = Plugin help is in raw HTML.  Not recommended.
 # $plugin['allow_html_help'] = 1;
 
-$plugin['version'] = '0.3';
+$plugin['version'] = '0.4';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
-$plugin['description'] = 'CodeMirror syntax-highlighting in pages, forms, css, JavaScript and external files';
+$plugin['description'] = 'CodeMirror syntax-highlighting in Pages, Forms, CSS, JavaScript & External Files + Zen Coding (Pages & Forms)';
 
 // Plugin load order:
 // The default value of 5 would fit most plugins, while for instance comment
@@ -59,7 +59,7 @@ if (!defined('txpinterface'))
  *
  * Thanks to Marijn (CodeMirror), Sergey (Zen Coding), Dale (mrd_codeMirror)
  *
- * Version 0.3 -- 26 May 2012
+ * Version 0.4 -- 27 May 2012
  */
 
 if (@txpinterface == 'admin') {
@@ -73,11 +73,11 @@ if (@txpinterface == 'admin') {
 function spf_textarea_page($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
-    <script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>';
-$js .= '<script type="text/javascript">';
 
-$js .= <<<EOF
+$cm_page_js = <<<EOF
+\n<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
+<script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>
+<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("html"), {
     mode: "text/html",
     tabMode: "indent",
@@ -91,21 +91,21 @@ var editor = CodeMirror.fromTextArea(document.getElementById("html"), {
             return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
         }
 });
+</script>
+<!-- spf_codemirror END -->\n
 EOF;
 
-$js .= '</script>';
-
-echo $js;
+echo $cm_page_js;
 }
 
 function spf_textarea_form($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
-    <script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>';
-$js .= '<script type="text/javascript">';
 
-$js .= <<<EOF
+$cm_form_js = <<<EOF
+\n<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
+<script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>
+<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("form"), {
     mode: "text/html",
     tabMode: "indent",
@@ -119,62 +119,62 @@ var editor = CodeMirror.fromTextArea(document.getElementById("form"), {
             return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
         }
 });
+</script>
+<!-- spf_codemirror END -->\n
 EOF;
 
-$js .= '</script>';
-
-echo $js;
+echo $cm_form_js;
 }
 
 function spf_textarea_css($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_css_min.js"></script>';
-$js .= '<script type="text/javascript">';
 
-$js .= <<<EOF
+$cm_css_js = <<<EOF
+\n<script type="text/javascript" src="/codemirror/cm_css_min.js"></script>
+<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
     mode: "text/css",
     lineWrapping: true,
     lineNumbers : true,
     matchBrackets : true,
     theme: "ambiance"
-});  
+});
+</script>
+<!-- spf_codemirror END -->\n
 EOF;
 
-$js .= '</script>';
-
-echo $js;
+echo $cm_css_js;
 }
 
 function spf_textarea_js($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_javascript_min.js"></script>';
-$js .= '<script type="text/javascript">';
 
-$js .= <<<EOF
+$cm_js_js = <<<EOF
+\n<script type="text/javascript" src="/codemirror/cm_javascript_min.js"></script>
+<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("spf_js"), {
     lineWrapping: true,
     lineNumbers: true,
     matchBrackets: true,
     theme: "ambiance"
-});   
+});
+</script>
+<!-- spf_codemirror END -->\n
 EOF;
 
-$js .= '</script>';
-
-echo $js;
+echo $cm_js_js;
 }
 
 function spf_textarea_ext($event, $step) {
 spf_codemirror_theme_select();
 spf_textarea_common();
-$js = '<script type="text/javascript" src="/codemirror/cm_php_min.js"></script>
-    <script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>';
-$js .= '<script type="text/javascript">';
 
-$js .= <<<EOF
+$cm_ext_js = <<<EOF
+\n<script type="text/javascript" src="/codemirror/cm_php_min.js"></script>
+<script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>
+<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
     lineWrapping: true,
     lineNumbers: true,
@@ -192,22 +192,26 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
             return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
         }
 });
+</script>
+<!-- spf_codemirror END -->\n
 EOF;
 
-$js .= '</script>';
-
-echo $js;
+echo $cm_ext_js;
 }
 
 function spf_textarea_common() {
-$cm = '<link href="/codemirror/cm_combined_min.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="/codemirror/cm_theme_select_min.js"></script>';
+$cm = <<<EOF
+\n<link href="/codemirror/cm_combined_min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/codemirror/cm_theme_select_min.js"></script>
+EOF;
 
 echo $cm;
 }
 
 function spf_codemirror_theme_select() {
-$select = '<p style="position:fixed;right:20px;bottom:20px">CodeMirror theme: <select onchange="selectTheme()" id="select">
+$select = <<<EOF
+\n<!-- spf_codemirror START -->
+<p style="position:fixed;right:20px;bottom:20px">CodeMirror theme: <select onchange="selectTheme()" id="select">
     <option>default</option>
     <option selected>ambiance</option>
     <option>blackboard</option>
@@ -221,7 +225,8 @@ $select = '<p style="position:fixed;right:20px;bottom:20px">CodeMirror theme: <s
     <option>rubyblue</option>
     <option>xq-dark</option>
 </select>
-</p>';
+</p>
+EOF;
 
 echo $select;
 }
@@ -252,7 +257,17 @@ if (0) {
 <h2>Installation:</h2>
 <ol>
 <li><a href="https://github.com/spiffin/spf_codemirror/zipball/master">DOWNLOAD</a> and unzip;</li>
-<li>Upload the containing ‘codemirror’ directory to your web root;</li>
+<li>Upload the containing ‘codemirror’ directory to your web root:</li>
+<ul style="margin-left:50px;list-style-type:square">
+<li><strong>codemirror</strong></li>
+<li>css.php</li>
+<li>files</li>
+<li>images</li>
+<li>index.php</li>
+<li>rpc</li>
+<li>sites</li>
+<li>textpattern</li>
+</ul>
 <li>Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).</li>
 </ol>
 
@@ -277,6 +292,12 @@ if (0) {
 
 
 <h2>Version history:</h2>
+
+<p>0.4 - May 2012</p>
+<ul>
+<li>Added code block indicators: <code>spf_codemirror START/END</code>.</li>
+<li>Code cleanup.</li>
+</ul>
 
 <p>0.3 - May 2012</p>
 <ul>
