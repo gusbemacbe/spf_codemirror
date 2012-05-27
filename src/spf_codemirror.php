@@ -75,8 +75,8 @@ spf_codemirror_theme_select();
 spf_textarea_common();
 
 $cm_page_js = <<<EOF
-\n<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
-<script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>
+\n<script type="text/javascript" src="../codemirror/cm_htmlmixed_min.js"></script>
+<script type="text/javascript" src="../codemirror/zen_codemirror.min.js"></script>
 <script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("html"), {
     mode: "text/html",
@@ -103,8 +103,8 @@ spf_codemirror_theme_select();
 spf_textarea_common();
 
 $cm_form_js = <<<EOF
-\n<script type="text/javascript" src="/codemirror/cm_htmlmixed_min.js"></script>
-<script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>
+\n<script type="text/javascript" src="../codemirror/cm_htmlmixed_min.js"></script>
+<script type="text/javascript" src="../codemirror/zen_codemirror.min.js"></script>
 <script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("form"), {
     mode: "text/html",
@@ -131,7 +131,7 @@ spf_codemirror_theme_select();
 spf_textarea_common();
 
 $cm_css_js = <<<EOF
-\n<script type="text/javascript" src="/codemirror/cm_css_min.js"></script>
+\n<script type="text/javascript" src="../codemirror/cm_css_min.js"></script>
 <script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
     mode: "text/css",
@@ -152,7 +152,7 @@ spf_codemirror_theme_select();
 spf_textarea_common();
 
 $cm_js_js = <<<EOF
-\n<script type="text/javascript" src="/codemirror/cm_javascript_min.js"></script>
+\n<script type="text/javascript" src="../codemirror/cm_javascript_min.js"></script>
 <script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("spf_js"), {
     lineWrapping: true,
@@ -172,8 +172,8 @@ spf_codemirror_theme_select();
 spf_textarea_common();
 
 $cm_ext_js = <<<EOF
-\n<script type="text/javascript" src="/codemirror/cm_php_min.js"></script>
-<script type="text/javascript" src="/codemirror/zen_codemirror.min.js"></script>
+\n<script type="text/javascript" src="../codemirror/cm_php_min.js"></script>
+<script type="text/javascript" src="../codemirror/zen_codemirror.min.js"></script>
 <script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
     lineWrapping: true,
@@ -201,8 +201,8 @@ echo $cm_ext_js;
 
 function spf_textarea_common() {
 $cm = <<<EOF
-\n<link href="/codemirror/cm_combined_min.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/codemirror/cm_theme_select_min.js"></script>
+\n<link href="../codemirror/cm_combined_min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../codemirror/cm_theme_select_min.js"></script>
 EOF;
 
 echo $cm;
