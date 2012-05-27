@@ -1,4 +1,14 @@
-spf_codemirror instructions:
+spf_codemirror quick instructions:
 
-1. Upload the containing 'codemirror' directory to your web root;
+1. Upload the containing 'codemirror' directory to your web root:
+
+		codemirror
+		css.php
+		files
+		images
+		index.php
+		rpc
+		sites
+		textpattern
+
 2. Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).
