@@ -17,10 +17,10 @@ $plugin['name'] = 'spf_codemirror';
 // 1 = Plugin help is in raw HTML.  Not recommended.
 # $plugin['allow_html_help'] = 1;
 
-$plugin['version'] = '0.4';
+$plugin['version'] = '0.5';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
-$plugin['description'] = 'CodeMirror syntax-highlighting in Pages, Forms, CSS, JavaScript & External Files + Zen Coding (Pages & Forms)';
+$plugin['description'] = 'CodeMirror syntax-highlighting in Pages, Forms, CSS, JavaScript & External Files + Zen Coding (Pages, Forms & limited CSS)';
 
 // Plugin load order:
 // The default value of 5 would fit most plugins, while for instance comment
@@ -59,7 +59,7 @@ if (!defined('txpinterface'))
  *
  * Thanks to Marijn (CodeMirror), Sergey (Zen Coding), Dale (mrd_codeMirror)
  *
- * Version 0.4 -- 27 May 2012
+ * Version 0.5 -- 30 May 2012
  */
 
 if (@txpinterface == 'admin') {
@@ -132,13 +132,19 @@ spf_textarea_common();
 
 $cm_css_js = <<<EOF
 \n<script type="text/javascript" src="../codemirror/cm_css_min.js"></script>
+<script type="text/javascript" src="../codemirror/zen_codemirror.min.js"></script>
 <script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
     mode: "text/css",
     lineWrapping: true,
     lineNumbers : true,
     matchBrackets : true,
-    theme: "ambiance"
+    theme: "ambiance",
+    syntax: 'css',   /* define Zen Coding syntax */
+    // send all key events to Zen Coding
+        onKeyEvent: function() {
+            return zen_editor.handleKeyEvent.apply(zen_editor, arguments);
+        }
 });
 </script>
 <!-- spf_codemirror END -->\n
@@ -226,6 +232,7 @@ $select = <<<EOF
     <option>xq-dark</option>
 </select>
 </p>
+<p>return syntax</p>
 EOF;
 
 echo $select;
@@ -237,7 +244,7 @@ if (0) {
 # --- BEGIN PLUGIN HELP ---
 <h1>spf_codemirror</h1>
 
-<p>A syntax-highlighting plugin for Textpattern admin - now with <a href="http://code.google.com/p/zen-coding/">Zen Coding</a> (Pages & Forms).</p>
+<p>A syntax-highlighting plugin for Textpattern admin - now with <a href="http://code.google.com/p/zen-coding/">Zen Coding</a> (Pages, Forms and limited CSS).</p>
 
 <h2>Background:</h2>
 
@@ -250,7 +257,7 @@ if (0) {
 <li>Adds <a href="http://codemirror.net">CodeMirror</a> syntax-highlighting to textareas in Textpattern’s Forms, Pages and Style tabs;</li>
 <li>Also to JavaScript tab (<a href="http://forum.textpattern.com/viewtopic.php?id=37849">spf_js</a> required) and External Files tab (<a href="http://forum.textpattern.com/viewtopic.php?id=38032">spf_ext</a> required);</li>
 <li>Theme selector.</li>
-<li>HTML shorthand/code-completion now added to Pages & Forms courtesy of <a href="http://code.google.com/p/zen-coding/">Zen Coding</a>.
+<li>HTML shorthand/code-completion now added to Pages, Forms & limited CSS courtesy of <a href="http://code.google.com/p/zen-coding/">Zen Coding</a>.
 </ol>
 
 
@@ -271,11 +278,15 @@ if (0) {
 <li>Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).</li>
 </ol>
 
+<br /><hr /><br />
+
 <h2>Zen Coding notes:</h2>
 <ol>
 <li>Initiate completion by hitting TAB (or Cmd+E).</li>
 <li>Try typing this: <code>div#page>div.logo+ul#navigation>li*5>a</code> and then TAB.</li>
 <li>Works with opening and closing txp tags (try typing <code>txp:if_section</code> and then TAB).</li>
+<li>CSS shortcuts work within <code>style</code> tags.</li>
+<li>Try typing 'style' +TAB and then, within the <code>style</code> tags, type '@f' +TAB.</li>
 </ol>
 
 
@@ -287,11 +298,18 @@ if (0) {
 <li>Plugins editor not supported;</li>
 <li>Code-folding requires input to the Javascript (which lines to fold) and is therefore disabled;</li>
 <li>Theme selector is bottom-right: not the most elegant solution but works consistently across most admin themes (specifically Classic, Hive, Steel).</li>
-<li>Zen Coding is only available for HTML (Pages & Forms).</li>
+<li>Zen Coding is only available for HTML (Pages & Forms) - with support for CSS within <code>style</code> tags.</li>
 </ol>
+
+<br /><hr /><br />
 
 
 <h2>Version history:</h2>
+
+<p>0.5 - May 2012</p>
+<ul>
+<li>CSS support for Zen Coding within <code>style</code> tags.</li>
+</ul>
 
 <p>0.4 - May 2012</p>
 <ul>
