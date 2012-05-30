@@ -232,7 +232,6 @@ $select = <<<EOF
     <option>xq-dark</option>
 </select>
 </p>
-<p>return syntax</p>
 EOF;
 
 echo $select;
