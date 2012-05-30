@@ -1,6 +1,6 @@
 h1. spf_codemirror
 
-p. A syntax-highlighting plugin for "Textpattern":http://textpattern.com admin - now with "Zen Coding":http://code.google.com/p/zen-coding (Pages & Forms).
+p. A syntax-highlighting plugin for "Textpattern":http://textpattern.com admin - now with "Zen Coding":http://code.google.com/p/zen-coding (Pages, Forms and limited CSS).
 
 
 h2. Background
@@ -15,7 +15,7 @@ h2. Features
 # Adds "CodeMirror":http://codemirror.net syntax-highlighting to textareas in Textpattern's Forms, Pages and Style tabs;
 # Also to JavaScript tab ("spf_js":http://forum.textpattern.com/viewtopic.php?id=37849 required) and External Files tab ("spf_ext":http://forum.textpattern.com/viewtopic.php?id=38032 required);
 # Theme selector.
-# HTML shorthand/code-completion now added to Pages & Forms courtesy of "Zen Coding":http://code.google.com/p/zen-coding.
+# HTML shorthand/code-completion now added to Pages, Forms & limited CSS  courtesy of "Zen Coding":http://code.google.com/p/zen-coding.
 
 
 h2. Installation
@@ -37,6 +37,8 @@ h2. Zen Coding notes:
 # Initiate completion by hitting TAB (or Cmd+E).
 # Try typing this: @div#page>div.logo+ul#navigation>li*5>a@ and then TAB.
 # Works with opening and closing txp tags (try typing @txp:if_section@ and then TAB).
+# CSS shortcuts work within @style@ tags:
+# Try typing 'style' +TAB and then, within the @style@ tags, type '@f' +TAB.
 
 
 h2. Notes & issues
@@ -47,10 +49,13 @@ h2. Notes & issues
 # Plugins editor not supported;
 # Code-folding requires input to the Javascript (which lines to fold) and is therefore disabled;
 # Theme selector is bottom-right: not the most elegant solution but works consistently across most admin themes (specifically Classic, Hive, Steel).
-# Zen Coding is only available for HTML (Pages & Forms).
+# Zen Coding is only available for HTML (Pages & Forms) - with support for CSS within @style@ tags.
 
 
 h2. Version history
+
+0.5 - May 2012
+* CSS support for Zen Coding within style tags.
 
 0.4 - May 2012
 * Added code block indicators: @spf_codemirror START/END@.
