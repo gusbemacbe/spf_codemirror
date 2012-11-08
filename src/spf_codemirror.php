@@ -234,8 +234,11 @@ var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
 EOF;
 
 /* Check for Minify and, if present, combine and minify css or js */
+$docroot = @$_SERVER['DOCUMENT_ROOT'];
+    if (empty($docroot))
+$docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
+$minify_dir = $docroot . '/min';
     if (file_exists($minify_dir)) {
         echo $cm_html_jsmin;
     } else { // If no Minify
@@ -293,8 +296,11 @@ var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
 EOF;
 
 /* Check for Minify and, if present, combine and minify css or js */
+$docroot = @$_SERVER['DOCUMENT_ROOT'];
+    if (empty($docroot))
+$docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
+$minify_dir = $docroot . '/min';
     if (file_exists($minify_dir)) {
         echo $cm_css_jsmin;
     } else { // If no Minify
@@ -340,8 +346,11 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_js"), {
 EOF;
 
 /* Check for Minify and, if present, combine and minify css or js */
+$docroot = @$_SERVER['DOCUMENT_ROOT'];
+    if (empty($docroot))
+$docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
+$minify_dir = $docroot . '/min';
     if (file_exists($minify_dir)) {
         echo $cm_js_jsmin;
     } else { // If no Minify
@@ -403,8 +412,11 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
 EOF;
 
 /* Check for Minify and, if present, combine and minify css or js */
+$docroot = @$_SERVER['DOCUMENT_ROOT'];
+    if (empty($docroot))
+$docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
+$minify_dir = $docroot . '/min';
     if (file_exists($minify_dir)) {
         echo $cm_php_jsmin;
     } else { // If no Minify
@@ -480,8 +492,11 @@ function isFullScreen(cm) {
 EOF;
 
 /* Check for Minify and, if present, combine and minify css or js */
+$docroot = @$_SERVER['DOCUMENT_ROOT'];
+    if (empty($docroot))
+$docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
+$minify_dir = $docroot . '/min';
     if (file_exists($minify_dir)) {
         echo $cmmin;
     } else { // If no Minify
@@ -493,9 +508,13 @@ echo $cm_txp;
 
 // TESTS
 function spf_codemirror_tests() {
-echo 'DOC ROOT: '.$_SERVER['DOCUMENT_ROOT'].'<br />';
-echo 'PUBLIC URL :'.ihu.'<br />';
-echo 'MINIFY URL :'.ihu.'min/';
+$docroot = @$_SERVER['DOCUMENT_ROOT'];
+    if (empty($docroot))
+	$docroot = @$_SERVER['PATH_TRANSLATED'];
+echo 'SERVER DOC ROOT: '.$_SERVER['DOCUMENT_ROOT'].'<br />';
+echo 'TXP DOC ROOT: '.$docroot.'<br />';
+echo 'PUBLIC URL: '.ihu.'<br />';
+echo 'MINIFY URL: '.ihu.'min/';
 }
 # --- END PLUGIN CODE ---
 if (0) {
