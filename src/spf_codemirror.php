@@ -17,7 +17,7 @@ $plugin['name'] = 'spf_codemirror';
 // 1 = Plugin help is in raw HTML.  Not recommended.
 # $plugin['allow_html_help'] = 1;
 
-$plugin['version'] = '0.6';
+$plugin['version'] = '0.61';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
 $plugin['description'] = 'CodeMirror syntax-highlighting in Pages, Forms, CSS, JavaScript & External Files + Zen Coding/Emmet code-completion (HTML & CSS)';
@@ -68,7 +68,7 @@ if (!defined('txpinterface'))
  *
  * Thanks to Marijn (CodeMirror), Sergey (Zen Coding/Emmet), Dale (mrd_codeMirror)
  *
- * Version 0.6 -- 8 November 2012
+ * Version 0.61 -- 8 November 2012
  */
 
 if (@txpinterface == 'admin') {
@@ -182,6 +182,7 @@ global $prefs, $step;
 // -------------------------------------------------------------
 function spf_textarea_html($event, $step) {
 global $prefs;
+$public_url = ihu;
 $spf_codemirror_theme = $prefs['spf_codemirror_theme'];
 $spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 $spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
@@ -198,16 +199,16 @@ switch ($event) {
 }
 
 $cm_html_jsmin = <<<EOF
-\n<script type="text/javascript" src="/min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,htmlmixed/htmlmixed.js"></script>
-<script type="text/javascript" src="../codemirror/emmet.min.js"></script>
+\n<script type="text/javascript" src="${public_url}min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,htmlmixed/htmlmixed.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
 $cm_html_js = <<<EOF
-\n<script type="text/javascript" src="../codemirror/mode/xml/xml.js"></script>
-<script type="text/javascript" src="../codemirror/mode/javascript/javascript.js"></script>
-<script type="text/javascript" src="../codemirror/mode/css/css.js"></script>
-<script type="text/javascript" src="../codemirror/mode/htmlmixed/htmlmixed.js"></script>
-<script type="text/javascript" src="../codemirror/emmet.min.js"></script>
+\n<script type="text/javascript" src="${public_url}codemirror/mode/xml/xml.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/javascript/javascript.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/css/css.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
 $cm_html_settings = <<<EOF
@@ -242,6 +243,9 @@ $minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
     } // End if Minify
 
 echo $cm_html_settings;
+
+// TESTS - disabled
+//spf_codemirror_tests();
 }
 
 
@@ -249,6 +253,7 @@ echo $cm_html_settings;
 // -------------------------------------------------------------
 function spf_textarea_css($event, $step) {
 global $prefs;
+$public_url = ihu;
 $spf_codemirror_theme = $prefs['spf_codemirror_theme'];
 $spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 $spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
@@ -256,13 +261,13 @@ $spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
 
 $cm_css_jsmin = <<<EOF
-\n<script type="text/javascript" src="/min/f=codemirror/mode/css/css.js"></script>
-<script type="text/javascript" src="../codemirror/emmet.min.js"></script>
+\n<script type="text/javascript" src="${public_url}min/f=codemirror/mode/css/css.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
 $cm_css_js = <<<EOF
-\n<script type="text/javascript" src="../codemirror/mode/css/css.js"></script>
-<script type="text/javascript" src="../codemirror/emmet.min.js"></script>
+\n<script type="text/javascript" src="${public_url}codemirror/mode/css/css.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
 $cm_css_settings = <<<EOF
@@ -303,6 +308,7 @@ echo $cm_css_settings;
 // -------------------------------------------------------------
 function spf_textarea_js($event, $step) {
 global $prefs;
+$public_url = ihu;
 $spf_codemirror_theme = $prefs['spf_codemirror_theme'];
 $spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 $spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
@@ -310,11 +316,11 @@ $spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
 
 $cm_js_jsmin = <<<EOF
-\n<script type="text/javascript" src="/min/f=codemirror/mode/javascript/javascript.js"></script>
+\n<script type="text/javascript" src="${public_url}min/f=codemirror/mode/javascript/javascript.js"></script>
 EOF;
 
 $cm_js_js = <<<EOF
-\n<script type="text/javascript" src="../codemirror/mode/javascript/javascript.js"></script>
+\n<script type="text/javascript" src="${public_url}codemirror/mode/javascript/javascript.js"></script>
 EOF;
 
 $cm_js_settings = <<<EOF
@@ -349,6 +355,7 @@ echo $cm_js_settings;
 // -------------------------------------------------------------
 function spf_textarea_php($event, $step) {
 global $prefs;
+$public_url = ihu;
 $spf_codemirror_theme = $prefs['spf_codemirror_theme'];
 $spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 $spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
@@ -356,17 +363,17 @@ $spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
 
 $cm_php_jsmin = <<<EOF
-\n<script type="text/javascript" src="/min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,clike/clike.js,php/php.js"></script>
-<script type="text/javascript" src="../codemirror/emmet.min.js"></script>
+\n<script type="text/javascript" src="${public_url}min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,clike/clike.js,php/php.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
 $cm_php_js = <<<EOF
-\n<script type="text/javascript" src="../codemirror/mode/xml/xml.js"></script>
-<script type="text/javascript" src="../codemirror/mode/javascript/javascript.js"></script>
-<script type="text/javascript" src="../codemirror/mode/css/css.js"></script>
-<script type="text/javascript" src="../codemirror/mode/clike/clike.js"></script>
-<script type="text/javascript" src="../codemirror/mode/php/php.js"></script>
-<script type="text/javascript" src="../codemirror/emmet.min.js"></script>
+\n<script type="text/javascript" src="${public_url}codemirror/mode/xml/xml.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/javascript/javascript.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/css/css.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/clike/clike.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/mode/php/php.js"></script>
+<script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
 $cm_php_settings = <<<EOF
@@ -411,21 +418,22 @@ echo $cm_php_settings;
 // -------------------------------------------------------------
 function spf_textarea_common() {
 global $prefs;
+$public_url = ihu;
 $spf_codemirror_theme = $prefs['spf_codemirror_theme'];
 $spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 
 $cmmin = <<<EOF
 \n<!-- spf_codemirror START -->
-<link type="text/css" rel="stylesheet" href="/min/f=codemirror/lib/codemirror.css" />
-<link href="../codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/min/f=codemirror/lib/codemirror.js"></script>
+<link type="text/css" rel="stylesheet" href="${public_url}min/f=codemirror/lib/codemirror.css" />
+<link href="${public_url}codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${public_url}min/f=codemirror/lib/codemirror.js"></script>
 EOF;
 
 $cm = <<<EOF
 \n<!-- spf_codemirror START -->
-<link href="../codemirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
-<link href="../codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../codemirror/lib/codemirror.js"></script>
+<link href="${public_url}codemirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="${public_url}codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${public_url}codemirror/lib/codemirror.js"></script>
 EOF;
 
 // Textpattern-specific css & js
@@ -481,6 +489,13 @@ $minify_dir = $_SERVER['DOCUMENT_ROOT'] . '/min';
     } // End if Minify
 
 echo $cm_txp;
+}
+
+// TESTS
+function spf_codemirror_tests() {
+echo 'DOC ROOT: '.$_SERVER['DOCUMENT_ROOT'].'<br />';
+echo 'PUBLIC URL :'.ihu.'<br />';
+echo 'MINIFY URL :'.ihu.'min/';
 }
 # --- END PLUGIN CODE ---
 if (0) {
@@ -565,6 +580,11 @@ if (0) {
 
 <h2>Version history:</h2>
 
+<p>0.61 - November 2012</p>
+<ul>
+<li>Fixed Minify issue with 'public' and 'private' URLs ('ihu' v 'hu').</li>
+</ul>
+
 <p>0.6 - November 2012</p>
 <ul>
 <li>Re-written for Textpattern 4.5.1 (still works on 4.4.x).</li>
@@ -573,11 +593,6 @@ if (0) {
 <li>Basic preferences via Admin > Preferences > Advanced.</li>
 <li>CodeMirror folder structure now mirrors standard CodeMirror for easy upgrades.</li>
 <li>Automatic Minify support.</li>
-</ul>
-
-<p>0.6 - June 2012</p>
-<ul>
-<li>Added support for front-end syntax-highlighting.</li>
 </ul>
 
 <p>0.5 - May 2012</p>
