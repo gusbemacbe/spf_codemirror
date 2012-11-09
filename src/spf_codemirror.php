@@ -477,9 +477,9 @@ function isFullScreen(cm) {
   font-size: $spf_codemirror_font_size;
 }
 .CodeMirror-scroll {
-  height: 41.85em;
-  min-width: 50.05em;
-  margin-top: 0.5em;
+  height: 39.256em;
+  min-width: 54.876em;
+  max-width: 78.264em;
   border: 1px solid;
   border-color: #bbb #ddd #ddd #bbb;
 }
@@ -491,12 +491,8 @@ function isFullScreen(cm) {
   z-index: 99;
 }
 .CodeMirror-fullscreen .CodeMirror-scroll {
-  margin-top: 0;
+  max-width: 100%;
   border: none;
-}
-/* Bg colour for full-screen */
-.cm-s-default, .cm-s-eclipse, .cm-s-elegant, .cm-s-neat {
-  background-color: #fff;
 }
 </style>
 EOF;
