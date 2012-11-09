@@ -437,7 +437,7 @@ $spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 $cmmin = <<<EOF
 \n<!-- spf_codemirror START -->
 <link type="text/css" rel="stylesheet" href="${public_url}min/f=codemirror/lib/codemirror.css" />
-<link href="${public_url}codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
+<link href="${public_url}min/f=codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${public_url}min/f=codemirror/lib/codemirror.js"></script>
 EOF;
 
