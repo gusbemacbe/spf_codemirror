@@ -238,8 +238,8 @@ $docroot = @$_SERVER['DOCUMENT_ROOT'];
     if (empty($docroot))
 $docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $docroot . '/min';
-    if (file_exists($minify_dir)) {
+$minify_cfg = $docroot . '/min/config.php';
+    if (file_exists($minify_cfg)) {
         echo $cm_html_jsmin;
     } else { // If no Minify
         echo $cm_html_js;
@@ -300,8 +300,8 @@ $docroot = @$_SERVER['DOCUMENT_ROOT'];
     if (empty($docroot))
 $docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $docroot . '/min';
-    if (file_exists($minify_dir)) {
+$minify_cfg = $docroot . '/min/config.php';
+    if (file_exists($minify_cfg)) {
         echo $cm_css_jsmin;
     } else { // If no Minify
         echo $cm_css_js;
@@ -350,8 +350,8 @@ $docroot = @$_SERVER['DOCUMENT_ROOT'];
     if (empty($docroot))
 $docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $docroot . '/min';
-    if (file_exists($minify_dir)) {
+$minify_cfg = $docroot . '/min/config.php';
+    if (file_exists($minify_cfg)) {
         echo $cm_js_jsmin;
     } else { // If no Minify
         echo $cm_js_js;
@@ -416,8 +416,8 @@ $docroot = @$_SERVER['DOCUMENT_ROOT'];
     if (empty($docroot))
 $docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $docroot . '/min';
-    if (file_exists($minify_dir)) {
+$minify_cfg = $docroot . '/min/config.php';
+    if (file_exists($minify_cfg)) {
         echo $cm_php_jsmin;
     } else { // If no Minify
         echo $cm_php_js;
@@ -496,8 +496,8 @@ $docroot = @$_SERVER['DOCUMENT_ROOT'];
     if (empty($docroot))
 $docroot = @$_SERVER['PATH_TRANSLATED'];
 
-$minify_dir = $docroot . '/min';
-    if (file_exists($minify_dir)) {
+$minify_cfg = $docroot . '/min/config.php';
+    if (file_exists($minify_cfg)) {
         echo $cmmin;
     } else { // If no Minify
         echo $cm;
