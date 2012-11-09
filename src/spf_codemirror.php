@@ -477,7 +477,9 @@ function isFullScreen(cm) {
   font-size: $spf_codemirror_font_size;
 }
 .CodeMirror-scroll {
-  height: 39.25em;
+  height: 41.85em;
+  min-width: 50.05em;
+  margin-top: 0.5em;
   border: 1px solid;
   border-color: #bbb #ddd #ddd #bbb;
 }
@@ -487,7 +489,11 @@ function isFullScreen(cm) {
   top: 0px !important; left: 0;
   width: 100%;
   z-index: 99;
-  }
+}
+.CodeMirror-fullscreen .CodeMirror-scroll {
+  margin-top: 0;
+  border: none;
+}
 </style>
 EOF;
 
