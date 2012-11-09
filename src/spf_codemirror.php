@@ -494,6 +494,10 @@ function isFullScreen(cm) {
   margin-top: 0;
   border: none;
 }
+/* Bg colour for full-screen */
+.cm-s-default, .cm-s-eclipse, .cm-s-elegant, .cm-s-neat {
+  background-color: #fff;
+}
 </style>
 EOF;
 
