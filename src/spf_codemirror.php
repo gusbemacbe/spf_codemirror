@@ -20,7 +20,7 @@ $plugin['name'] = 'spf_codemirror';
 $plugin['version'] = '0.7';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
-$plugin['description'] = 'CodeMirror syntax-highlighting in Pages, Forms, CSS, JavaScript & External Files + Zen Coding/Emmet code-completion (HTML & CSS)';
+$plugin['description'] = 'CodeMirror syntax-highlighting + Emmet code-completion (HTML & CSS)';
 
 // Plugin load order:
 // The default value of 5 would fit most plugins, while for instance comment
