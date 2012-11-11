@@ -17,7 +17,7 @@ $plugin['name'] = 'spf_codemirror';
 // 1 = Plugin help is in raw HTML.  Not recommended.
 # $plugin['allow_html_help'] = 1;
 
-$plugin['version'] = '0.61';
+$plugin['version'] = '0.7';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
 $plugin['description'] = 'CodeMirror syntax-highlighting in Pages, Forms, CSS, JavaScript & External Files + Zen Coding/Emmet code-completion (HTML & CSS)';
@@ -68,7 +68,7 @@ if (!defined('txpinterface'))
  *
  * Thanks to Marijn (CodeMirror), Sergey (Zen Coding/Emmet), Dale (mrd_codeMirror)
  *
- * Version 0.61 -- 8 November 2012
+ * Version 0.7 -- 12 November 2012
  */
 
 if (@txpinterface == 'admin') {
@@ -82,6 +82,14 @@ if (@txpinterface == 'admin') {
     register_callback('spf_textarea_php', 'spf_ext');
 
 }
+/* Prefs array */
+global $prefs, $spf_cm_prefs;
+$spf_cm_prefs = array(
+	'cm_theme' => $prefs['spf_codemirror_theme'],
+	'cm_fsize' => $prefs['spf_codemirror_font_size'],
+	'cm_enterfs' => $prefs['spf_codemirror_enter_fs'],
+	'cm_exitfs' => $prefs['spf_codemirror_exit_fs'],
+);
 
 /* Set default prefs on install */
 // -------------------------------------------------------------
@@ -180,14 +188,12 @@ global $prefs, $step;
 
 /* HTML settings (Presentation > Pages and Forms) */
 // -------------------------------------------------------------
-function spf_textarea_html($event, $step) {
-global $prefs;
+function spf_textarea_html($event) {
+global $prefs, $spf_cm_prefs;
+extract($spf_cm_prefs);
 $public_url = ihu;
-$spf_codemirror_theme = $prefs['spf_codemirror_theme'];
-$spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
-$spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
-$spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
+
 $id = '';
 switch ($event) {
 	case 'page':
@@ -198,12 +204,12 @@ switch ($event) {
 		break;
 }
 
-$cm_html_jsmin = <<<EOF
+$mini = <<<EOF
 \n<script type="text/javascript" src="${public_url}min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,htmlmixed/htmlmixed.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
-$cm_html_js = <<<EOF
+$maxi = <<<EOF
 \n<script type="text/javascript" src="${public_url}codemirror/mode/xml/xml.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/mode/javascript/javascript.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/mode/css/css.js"></script>
@@ -211,20 +217,20 @@ $cm_html_js = <<<EOF
 <script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
-$cm_html_settings = <<<EOF
+$cm_html = <<<EOF
 \n<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
     mode: "text/html",
     tabMode: "indent",
     lineWrapping: true,
     lineNumbers: true,
-    theme: "$spf_codemirror_theme",
+    theme: "$cm_theme",
     syntax: 'html',   /* define Emmet syntax */
     extraKeys: _.extend({
-    "$spf_codemirror_enter_fs": function(cm) {
+    "$cm_enterfs": function(cm) {
       setFullScreen(cm, !isFullScreen(cm));
     },
-    "$spf_codemirror_exit_fs": function(cm) {
+    "$cm_exitfs": function(cm) {
       if (isFullScreen(cm)) { setFullScreen(cm, false); }
     }
   }, CodeMirror.defaults.extraKeys || {})
@@ -233,60 +239,48 @@ var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
 <!-- spf_codemirror END -->\n
 EOF;
 
-/* Check for Minify and, if present, combine and minify css or js */
-$docroot = @$_SERVER['DOCUMENT_ROOT'];
-    if (empty($docroot))
-$docroot = @$_SERVER['PATH_TRANSLATED'];
+    if(if_minify() === true) {
+        echo $mini;
+    } else {
+        echo $maxi;
+    }
 
-$minify_cfg = $docroot . '/min/config.php';
-    if (file_exists($minify_cfg)) {
-        echo $cm_html_jsmin;
-    } else { // If no Minify
-        echo $cm_html_js;
-    } // End if Minify
-
-echo $cm_html_settings;
-
-// TESTS - disabled
-//spf_codemirror_tests();
+echo $cm_html;
 }
 
 
 /* CSS settings (Presentation > Styles) */
 // -------------------------------------------------------------
-function spf_textarea_css($event, $step) {
-global $prefs;
+function spf_textarea_css() {
+global $prefs, $spf_cm_prefs;
+extract($spf_cm_prefs);
 $public_url = ihu;
-$spf_codemirror_theme = $prefs['spf_codemirror_theme'];
-$spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
-$spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
-$spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
 
-$cm_css_jsmin = <<<EOF
+$mini = <<<EOF
 \n<script type="text/javascript" src="${public_url}min/f=codemirror/mode/css/css.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
-$cm_css_js = <<<EOF
+$maxi = <<<EOF
 \n<script type="text/javascript" src="${public_url}codemirror/mode/css/css.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
-$cm_css_settings = <<<EOF
-<script type="text/javascript">
+$cm_css = <<<EOF
+\n<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
     mode: "text/css",
     lineWrapping: true,
     lineNumbers : true,
     matchBrackets : true,
-    theme: "$spf_codemirror_theme",
+    theme: "$cm_theme",
     syntax: 'css',   /* define Emmet syntax */
     extraKeys: _.extend({
-    "$spf_codemirror_enter_fs": function(cm) {
+    "$cm_enterfs": function(cm) {
       setFullScreen(cm, !isFullScreen(cm));
     },
-    "$spf_codemirror_exit_fs": function(cm) {
+    "$cm_exitfs": function(cm) {
       if (isFullScreen(cm)) { setFullScreen(cm, false); }
     }
   }, CodeMirror.defaults.extraKeys || {})
@@ -295,88 +289,70 @@ var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
 <!-- spf_codemirror END -->\n
 EOF;
 
-/* Check for Minify and, if present, combine and minify css or js */
-$docroot = @$_SERVER['DOCUMENT_ROOT'];
-    if (empty($docroot))
-$docroot = @$_SERVER['PATH_TRANSLATED'];
+    if(if_minify() === true) {
+        echo $mini;
+    } else {
+        echo $maxi;
+    }
 
-$minify_cfg = $docroot . '/min/config.php';
-    if (file_exists($minify_cfg)) {
-        echo $cm_css_jsmin;
-    } else { // If no Minify
-        echo $cm_css_js;
-    } // End if Minify
-
-echo $cm_css_settings;
+echo $cm_css;
 }
 
 /* JavaScript settings (Presentation > JavaScript -requires spf_js) */
 // -------------------------------------------------------------
-function spf_textarea_js($event, $step) {
-global $prefs;
+function spf_textarea_js() {
+global $prefs, $spf_cm_prefs, $spf_if_minify;
+extract($spf_cm_prefs);
 $public_url = ihu;
-$spf_codemirror_theme = $prefs['spf_codemirror_theme'];
-$spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
-$spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
-$spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
 
-$cm_js_jsmin = <<<EOF
+$mini = <<<EOF
 \n<script type="text/javascript" src="${public_url}min/f=codemirror/mode/javascript/javascript.js"></script>
 EOF;
 
-$cm_js_js = <<<EOF
+$maxi = <<<EOF
 \n<script type="text/javascript" src="${public_url}codemirror/mode/javascript/javascript.js"></script>
 EOF;
 
-$cm_js_settings = <<<EOF
-<script type="text/javascript">
+$cm_js = <<<EOF
+\n<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("spf_js"), {
     lineWrapping: true,
     lineNumbers: true,
     matchBrackets: true,
-    theme: "$spf_codemirror_theme",
+    theme: "$cm_theme",
     extraKeys: {
-	"$spf_codemirror_enter_fs": function(cm) {setFullScreen(cm, !isFullScreen(cm));},
-	"$spf_codemirror_exit_fs": function(cm) {if (isFullScreen(cm)) {setFullScreen(cm, false);}}
+	"$cm_enterfs": function(cm) {setFullScreen(cm, !isFullScreen(cm));},
+	"$cm_exitfs": function(cm) {if (isFullScreen(cm)) {setFullScreen(cm, false);}}
 	}
 });
 </script>
 <!-- spf_codemirror END -->\n
 EOF;
 
-/* Check for Minify and, if present, combine and minify css or js */
-$docroot = @$_SERVER['DOCUMENT_ROOT'];
-    if (empty($docroot))
-$docroot = @$_SERVER['PATH_TRANSLATED'];
+    if(if_minify() === true) {
+        echo $mini;
+    } else {
+        echo $maxi;
+    }
 
-$minify_cfg = $docroot . '/min/config.php';
-    if (file_exists($minify_cfg)) {
-        echo $cm_js_jsmin;
-    } else { // If no Minify
-        echo $cm_js_js;
-    } // End if Minify
-
-echo $cm_js_settings;
+echo $cm_js;
 }
 
 /* PHP settings (Extensions > External Files -requires spf_ext) */
 // -------------------------------------------------------------
-function spf_textarea_php($event, $step) {
-global $prefs;
+function spf_textarea_php() {
+global $prefs, $spf_cm_prefs;
+extract($spf_cm_prefs);
 $public_url = ihu;
-$spf_codemirror_theme = $prefs['spf_codemirror_theme'];
-$spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
-$spf_codemirror_enter_fs = $prefs['spf_codemirror_enter_fs'];
-$spf_codemirror_exit_fs = $prefs['spf_codemirror_exit_fs'];
 spf_textarea_common();
 
-$cm_php_jsmin = <<<EOF
+$mini = <<<EOF
 \n<script type="text/javascript" src="${public_url}min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,clike/clike.js,php/php.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
-$cm_php_js = <<<EOF
+$maxi = <<<EOF
 \n<script type="text/javascript" src="${public_url}codemirror/mode/xml/xml.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/mode/javascript/javascript.js"></script>
 <script type="text/javascript" src="${public_url}codemirror/mode/css/css.js"></script>
@@ -385,8 +361,8 @@ $cm_php_js = <<<EOF
 <script type="text/javascript" src="${public_url}codemirror/emmet.min.js"></script>
 EOF;
 
-$cm_php_settings = <<<EOF
-<script type="text/javascript">
+$cm_php = <<<EOF
+\n<script type="text/javascript">
 var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
     lineWrapping: true,
     lineNumbers: true,
@@ -396,13 +372,13 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
     indentWithTabs: true,
     enterMode: "keep",
     tabMode: "shift",
-    theme: "$spf_codemirror_theme",
+    theme: "$cm_theme",
     syntax: 'html',   /* define Emmet syntax */
     extraKeys: _.extend({
-    "$spf_codemirror_enter_fs": function(cm) {
+    "$cm_enterfs": function(cm) {
       setFullScreen(cm, !isFullScreen(cm));
     },
-    "$spf_codemirror_exit_fs": function(cm) {
+    "$cm_exitfs": function(cm) {
       if (isFullScreen(cm)) { setFullScreen(cm, false); }
     }
   }, CodeMirror.defaults.extraKeys || {})
@@ -411,40 +387,33 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
 <!-- spf_codemirror END -->\n
 EOF;
 
-/* Check for Minify and, if present, combine and minify css or js */
-$docroot = @$_SERVER['DOCUMENT_ROOT'];
-    if (empty($docroot))
-$docroot = @$_SERVER['PATH_TRANSLATED'];
+    if(if_minify() === true) {
+        echo $mini;
+    } else {
+        echo $maxi;
+    }
 
-$minify_cfg = $docroot . '/min/config.php';
-    if (file_exists($minify_cfg)) {
-        echo $cm_php_jsmin;
-    } else { // If no Minify
-        echo $cm_php_js;
-    } // End if Minify
-
-echo $cm_php_settings;
+echo $cm_php;
 }
 
 /* Common settings */
 // -------------------------------------------------------------
 function spf_textarea_common() {
-global $prefs;
+global $prefs, $spf_cm_prefs;
+extract($spf_cm_prefs);
 $public_url = ihu;
-$spf_codemirror_theme = $prefs['spf_codemirror_theme'];
-$spf_codemirror_font_size = $prefs['spf_codemirror_font_size'];
 
-$cmmin = <<<EOF
+$mini = <<<EOF
 \n<!-- spf_codemirror START -->
 <link type="text/css" rel="stylesheet" href="${public_url}min/f=codemirror/lib/codemirror.css" />
-<link href="${public_url}min/f=codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
+<link href="${public_url}min/f=codemirror/theme/$cm_theme.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${public_url}min/f=codemirror/lib/codemirror.js"></script>
 EOF;
 
-$cm = <<<EOF
+$maxi = <<<EOF
 \n<!-- spf_codemirror START -->
 <link href="${public_url}codemirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
-<link href="${public_url}codemirror/theme/$spf_codemirror_theme.css" rel="stylesheet" type="text/css" />
+<link href="${public_url}codemirror/theme/$cm_theme.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${public_url}codemirror/lib/codemirror.js"></script>
 EOF;
 
@@ -474,7 +443,7 @@ function isFullScreen(cm) {
 <style>
 /* Additional styles for Textpattern */
 .CodeMirror {
-  font-size: $spf_codemirror_font_size;
+  font-size: $cm_fsize;
 }
 .CodeMirror-scroll {
   height: 39.256em;
@@ -497,59 +466,65 @@ function isFullScreen(cm) {
 </style>
 EOF;
 
-/* Check for Minify and, if present, combine and minify css or js */
-$docroot = @$_SERVER['DOCUMENT_ROOT'];
-    if (empty($docroot))
-$docroot = @$_SERVER['PATH_TRANSLATED'];
-
-$minify_cfg = $docroot . '/min/config.php';
-    if (file_exists($minify_cfg)) {
-        echo $cmmin;
-    } else { // If no Minify
-        echo $cm;
-    } // End if Minify
+    if(if_minify() === true) {
+        echo $mini;
+    } else {
+        echo $maxi;
+    }
 
 echo $cm_txp;
 }
 
-// TESTS
-function spf_codemirror_tests() {
-$docroot = @$_SERVER['DOCUMENT_ROOT'];
-    if (empty($docroot))
-	$docroot = @$_SERVER['PATH_TRANSLATED'];
-echo 'SERVER DOC ROOT: '.$_SERVER['DOCUMENT_ROOT'].'<br />';
-echo 'TXP DOC ROOT: '.$docroot.'<br />';
-echo 'PUBLIC URL: '.ihu.'<br />';
-echo 'MINIFY URL: '.ihu.'min/';
+/* Check for Minify */
+// -------------------------------------------------------------
+function spf_if_minify() {
+    if (file_exists(@$_SERVER['DOCUMENT_ROOT'].'/min/config.php')) {
+        return true;
+    } else {
+        return false;
+    }
 }
 # --- END PLUGIN CODE ---
 if (0) {
 ?>
 <!--
+# --- BEGIN PLUGIN CSS ---
+<style type="text/css">
+#plugin_container {
+font-size: 1.1em;
+}
+#plugin_container .small {
+font-size: 0.9em;
+}
+</style>
+# --- END PLUGIN CSS ---
+-->
+<!--
 # --- BEGIN PLUGIN HELP ---
 <h1>spf_codemirror</h1>
 
-<p>A syntax-highlighting plugin for Textpattern admin - with <a href="http://code.google.com/p/zen-coding/">Zen Coding/Emmet</a> code completion.</p>
+<p><a href="http://codemirror.net">CodeMirror</a> syntax-highlighting and <a href="http://docs.emmet.io">Emmet</a> code-completion plugin for Textpattern admin.</p>
 
-<p><a href="/textpattern/index.php?event=prefs&step=advanced_prefs">Preferences</a> can be set for theme, font-size and full-screen hot-keys. <a href="http://codemirror.net/demo/theme.html">View themes here</a> - to set a theme just type the name (e.g. lesser-dark) into the CodeMirror theme field and click Save.</p>
+<p class="small">(Emmet is the new name for Zen Coding.)</p>
 
-<h2>Background:</h2>
+<p><a href="/textpattern/index.php?event=prefs&step=advanced_prefs">Preferences</a> can be set for theme, font-size and full-screen hot-keys.</p>
 
-<p>This was a quick update to Dale Chapman's <a href="http://forum.textpattern.com/viewtopic.php?id=38015">mrd_codeMirror</a> which, in turn, was prompted by my <a href="http://forum.textpattern.com/viewtopic.php?id=37957">CodeMirror admin theme</a> and, of course, Marijn Haverbeke’s <a href="http://codemirror.net">CodeMirror</a>. Now with <a href="http://code.google.com/p/zen-coding/">Zen Coding</a> goodness thrown in.</p>
-<p>Thanks to Marijn, Sergey and Dale.</p>
+<p><a href="http://codemirror.net/demo/theme.html">View themes here</a> - to set a theme just type the name (e.g. lesser-dark) into the CodeMirror theme field and click Save.</p>
 
+<br /><hr /><br />
 
-<h2>Features:</h2>
+<h2>Features</h2>
 <ol>
 <li>Adds <a href="http://codemirror.net">CodeMirror</a> syntax-highlighting to textareas in Textpattern’s Forms, Pages and Style tabs;</li>
 <li>Also to JavaScript tab (<a href="http://forum.textpattern.com/viewtopic.php?id=37849">spf_js</a> required) and External Files tab (<a href="http://forum.textpattern.com/viewtopic.php?id=38032">spf_ext</a> required);</li>
-<li>Basic preferences via Admin > Preferences > Advanced;</li>
+<li>Basic <a href="/textpattern/index.php?event=prefs&step=advanced_prefs">preferences</a> via Admin > Preferences > Advanced;</li>
 <li>HTML/CSS shorthand/code-completion added to Pages, Forms & CSS courtesy of <a href="http://code.google.com/p/zen-coding/">Zen Coding/Emmet</a>.
-<li>Full-screen support - just hit F5 (and Esc to exit) - or set your own hot-keys via Admin > Preferences > Advanced.</li>
+<li>Full-screen support - just hit F5 (and Esc to exit) - or set your own hot-keys via <a href="/textpattern/index.php?event=prefs&step=advanced_prefs">Preferences</a>.</li>
 </ol>
 
+<br /><hr /><br />
 
-<h2>Installation:</h2>
+<h2>Installation</h2>
 <ol>
 <li><a href="https://github.com/spiffin/spf_codemirror/zipball/master">DOWNLOAD</a> and unzip;</li>
 <li>Upload the containing ‘codemirror’ directory to your web root:</li>
@@ -564,16 +539,20 @@ if (0) {
 <li>textpattern</li>
 </ul>
 <li>Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).</li>
-<li>NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'lib', 'mode' and 'theme' directories) with the addition of the minified emmet.min.js file from <a href="https://github.com/sergeche/zen-coding/downloads">Emmet-CodeMirror2</a> - for easy upgrade.</li>
+<li>NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'lib', 'mode' and 'theme' directories) with the addition of the minified emmet.min.js file from <a href="https://github.com/emmetio/emmet/downloads">Emmet-CodeMirror2</a> - for easy upgrade.</li>
 </ol>
 
-<h2>Upgrade to a newer version of CodeMirror</h2>
+<br /><hr /><br />
+
+<h2>CodeMirror/Emmet upgrade</h2>
 <ol>
 <li>You can now easily upgrade CodeMirror (2.35 as of Nov 2012).</li>
 <li><a href="http://codemirror.net/codemirror.zip">Download the latest release</a>.</li>
 <li>Unzip the download and upload the containing 'lib', 'mode' and 'theme' directories to the codemirror directory on your web server.</li>
-<li>To upgrade Emmet (Zen Coding) download 'Emmet-CodeMirror2' <a href="https://github.com/sergeche/zen-coding/downloads">from here</a>, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.</li>
+<li>To upgrade Emmet <a href="https://github.com/emmetio/emmet/downloads">download 'Emmet-CodeMirror2'</a>, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.</li>
 </ol>
+
+<br /><hr /><br />
 
 <h2>Minify support</h2>
 <ol>
@@ -582,32 +561,24 @@ if (0) {
 
 <br /><hr /><br />
 
-<h2>Zen Coding/Emmet* notes:</h2>
+<h2>Emmet* notes</h2>
 <ol>
 <li>Initiate completion by hitting TAB (or Cmd+E).</li>
 <li>Try typing this: <code>div#page>div.logo+ul#navigation>li*5>a</code> and then TAB.</li>
 <li>Works with opening and closing txp tags (try typing <code>txp:if_section</code> and then TAB).</li>
 <li>CSS shortcuts work even better with Emmet - try typing <code>m</code> and then TAB in Styles.</li>
-<p>*Emmet is the new name for Zen Coding.</p>
-</ol>
-
-
-<h2>Notes & issues:</h2>
-<ol>
-<li>Basic preferences (theme, font-size, full-screen hot-keys) are available via Admin > Preferences > Advanced.</li>
-<li>Textarea resizing is disabled (enabling gives erratic results);</li>
-<li>Plugins editor not supported;</li>
-<li>Code-folding requires input to the Javascript (which lines to fold) and is therefore disabled;</li>
+<li><a href="http://docs.emmet.io">Emmet documentation</a>.</li>
+<p class="small">*Emmet is the new name for Zen Coding.</p>
 </ol>
 
 <br /><hr /><br />
 
 
-<h2>Version history:</h2>
+<h2>Version history</h2>
 
-<p>0.61 - November 2012</p>
+<p>0.7 - November 2012</p>
 <ul>
-<li>Fixed Minify issue with 'public' and 'private' URLs ('ihu' v 'hu').</li>
+<li>Code clean-up, CSS tweaks & <a href="http://docs.emmet.io">Emmet documentation</a>.</li>
 </ul>
 
 <p>0.6 - November 2012</p>
@@ -615,7 +586,7 @@ if (0) {
 <li>Re-written for Textpattern 4.5.1 (still works on 4.4.x).</li>
 <li>Upgraded to <a href="http://codemirror.net/">CodeMirror</a> 2.35 and <a href="https://github.com/sergeche/zen-coding">Emmet</a>.</li>
 <li>Full-screen support - hit F5 (and Esc to exit).</li>
-<li>Basic preferences via Admin > Preferences > Advanced.</li>
+<li>Basic <a href="/textpattern/index.php?event=prefs&step=advanced_prefs">preferences</a> via Admin > Preferences > Advanced.</li>
 <li>CodeMirror folder structure now mirrors standard CodeMirror for easy upgrades.</li>
 <li>Automatic Minify support.</li>
 </ul>
