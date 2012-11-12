@@ -1,24 +1,23 @@
 h1. spf_codemirror
 
-p. A syntax-highlighting plugin for "Textpattern":http://textpattern.com admin - now with "Zen Coding/Emmet":http://code.google.com/p/zen-coding (HTML & CSS).
+p. "CodeMirror":http://codemirror.net syntax-highlighting and "Emmet":http://docs.emmet.io code-completion plugin for Textpattern admin.
 
-p. Preferences can now be set for theme, font-size and full-screen hot-keys.
+p. (Emmet is the new name for Zen Coding.)
 
+p. Preferences can be set for theme, font-size and full-screen hot-keys.
 
-h2. Background
+p. To set a theme just type the name (e.g. lesser-dark) into the CodeMirror theme field and click Save.
 
-p. This was a quick update to Dale Chapman's "mrd_codeMirror":http://forum.textpattern.com/viewtopic.php?id=38015 which, in turn, was prompted by my "CodeMirror admin theme":http://forum.textpattern.com/viewtopic.php?id=37957 and, of course, Marijn Haverbeke's "CodeMirror":http://codemirror.net. Now with "Zen Coding":http://code.google.com/p/zen-coding goodness thrown in.
-
-p. Thanks to Marijn, Sergey and Dale.
-
+<hr >
 
 h2. Features
 
 # Adds "CodeMirror":http://codemirror.net syntax-highlighting to textareas in Textpattern's Forms, Pages and Style tabs;
 # Also to JavaScript tab ("spf_js":http://forum.textpattern.com/viewtopic.php?id=37849 required) and External Files tab ("spf_ext":http://forum.textpattern.com/viewtopic.php?id=38032 required);
 # Basic preferences via Admin > Preferences > Advanced;
-# HTML/CSS shorthand/code-completion now added to Pages, Forms & CSS  courtesy of "Zen Coding/Emmet":http://code.google.com/p/zen-coding.
+# Code-completion added to HTML & CSS  courtesy of "Emmet":http://docs.emmet.io.
 
+<hr />
 
 h2. Installation
 
@@ -35,38 +34,38 @@ h2. Installation
 # Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).
 # NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'lib', 'mode' and 'theme' directories) with the addition of the minified emmet.min.js file from Emmet-CodeMirror2 - for easy upgrade.
 
-h2. Upgrade to a newer version of CodeMirror
+<hr />
+
+h2. CodeMirror/Emmet upgrade
 
 # You can now easily upgrade CodeMirror (2.35 as of Nov 2012).
 # "Download the latest release":http://codemirror.net/codemirror.zip.
 # Unzip the download and upload the containing 'lib', 'mode' and 'theme' directories to the codemirror directory on your web server.
-# To upgrade Emmet (Zen Coding) download 'Emmet-CodeMirror2' "from here":https://github.com/sergeche/zen-coding/downloads, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.
+# To upgrade Emmet (Zen Coding) "download Emmet-CodeMirror2":https://github.com/emmetio/emmet/downloads, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.
+
+<hr />
 
 h2. Minify support
 
 # If you have "Minify":http://code.google.com/p/minify/ on your web server in the standard DOCUMENT_ROOT/min location, spf_codemirror will use it to minify css & js - if you don't, it won't.
 
-h2. Zen Coding notes:
+<hr />
+
+h2. Emmet notes
 
 # Initiate completion by hitting TAB (or Cmd+E).
 # Try typing this: @div#page>div.logo+ul#navigation>li*5>a@ and then TAB.
 # Works with opening and closing txp tags (try typing @txp:if_section@ and then TAB).
 # CSS shortcuts work even better with Emmet* - try typing m and then TAB in Styles.
+# "Emmet documentation":http://docs.emmet.io.
 *Emmet is the new name for Zen Coding.
 
-
-h2. Notes & issues
-
-# Basic preferences (theme, font-size, full-screen hot-keys) are available via Admin > Preferences > Advanced.
-# Textarea resizing is disabled (enabling gives erratic results);
-# Plugins editor not supported;
-# Code-folding requires input to the Javascript (which lines to fold) and is therefore disabled;
-
+<hr />
 
 h2. Version history
 
-0.61 - November 2012
-* Fixed Minify issue with 'public' and 'private' URLs ('ihu' v 'hu').
+0.7 - November 2012
+* Code clean-up, CSS tweaks & "Emmet documentation":http://docs.emmet.io.
 
 0.6 - November 2012
 * Re-written for Textpattern 4.5.1.
