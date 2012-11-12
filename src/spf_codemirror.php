@@ -477,7 +477,7 @@ echo $cm_txp;
 
 /* Check for Minify */
 // -------------------------------------------------------------
-function spf_if_minify() {
+function if_minify() {
     if (file_exists(@$_SERVER['DOCUMENT_ROOT'].'/min/config.php')) {
         return true;
     } else {
