@@ -227,6 +227,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
     tabMode: "indent",
     lineWrapping: true,
     lineNumbers: true,
+    viewportMargin: Infinity,
     theme: "$cm_theme",
     syntax: 'html',   /* define Emmet syntax */
     extraKeys: _.extend({
@@ -284,6 +285,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
     lineNumbers : true,
     matchBrackets : true,
     theme: "$cm_theme",
+    viewportMargin: Infinity,
     syntax: 'css',   /* define Emmet syntax */
     extraKeys: _.extend({
     "$cm_enterfs": function(cm) {
@@ -335,6 +337,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_js"), {
     lineNumbers: true,
     matchBrackets: true,
     theme: "$cm_theme",
+    viewportMargin: Infinity,
     extraKeys: {
 	"$cm_enterfs": function(cm) {setFullScreen(cm, !isFullScreen(cm));},
 	"$cm_exitfs": function(cm) {if (isFullScreen(cm)) {setFullScreen(cm, false);}}
@@ -392,6 +395,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
     enterMode: "keep",
     tabMode: "shift",
     theme: "$cm_theme",
+    viewportMargin: Infinity,
     syntax: 'html',   /* define Emmet syntax */
     extraKeys: _.extend({
     "$cm_enterfs": function(cm) {
@@ -477,7 +481,7 @@ function isFullScreen(cm) {
   top: 0; left: 0;
   max-width: 100%;
 width: 100% !important;
-  height: 100%;
+  /*height: 100%;*/
   z-index: 999;
   border: none;
 }
@@ -599,7 +603,10 @@ font-size: 0.9em;
 <p>0.8 - January 2013</p>
 <ul>
 <li>Changes for CodeMirror version 3.</li>
+<li>Match-highlighting feature (Pages, Forms & Javascript).</li>
+<li>Fixed search in full-screen mode.</li>
 </ul>
+
 
 <p>0.7 - November 2012</p>
 <ul>

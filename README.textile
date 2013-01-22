@@ -67,6 +67,7 @@ h2. Version history
 0.8 - January 2013
 * Changes for CodeMirror 3.01.
 * Added match-highlighter feature for Pages, Forms & Javascript.
+* Fixed search in full-screen mode.
 
 0.7 - November 2012
 * Code clean-up, CSS tweaks & "Emmet documentation":http://docs.emmet.io.
