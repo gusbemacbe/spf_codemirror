@@ -38,7 +38,7 @@ h2. Installation
 
 h2. CodeMirror/Emmet upgrade
 
-# You can now easily upgrade CodeMirror (2.35 as of Nov 2012).
+# You can now easily upgrade CodeMirror (3.1 as of March 2013).
 # "Download the latest release":http://codemirror.net/codemirror.zip.
 # Unzip the download and upload the containing 'lib', 'mode' and 'theme' directories to the codemirror directory on your web server.
 # To upgrade Emmet (Zen Coding) "download Emmet-CodeMirror2":https://github.com/emmetio/emmet/downloads, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.
@@ -65,7 +65,7 @@ h2. Emmet notes
 h2. Version history
 
 0.8 - January 2013
-* Changes for CodeMirror 3.01 & Emmet 1.3.3
+* Changes for CodeMirror 3.1 & Emmet 1.3.3
 * Added match-highlighter feature for Pages, Forms & Javascript.
 * Fixed search in full-screen mode.
 
