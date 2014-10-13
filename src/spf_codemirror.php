@@ -48,23 +48,13 @@ if (!defined('PLUGIN_LIFECYCLE_NOTIFY')) define('PLUGIN_LIFECYCLE_NOTIFY', 0x000
 $plugin['flags'] = '2';
 
 // Plugin 'textpack' is optional. It provides i18n strings to be used in conjunction with gTxt().
-// Syntax:
-// ## arbitrary comment
-// #@event
-// #@language ISO-LANGUAGE-CODE
-// abc_string_name => Localized String
-
-/** Uncomment me, if you need a textpack
 $plugin['textpack'] = <<< EOT
-#@admin
-#@language en-gb
-abc_sample_string => Sample String
-abc_one_more => One more
-#@language de-de
-abc_sample_string => Beispieltext
-abc_one_more => Noch einer
+#@spf_codemirror
+spf_codemirror_theme => CodeMirror theme
+spf_codemirror_font_size => CodeMirror font size
+spf_codemirror_enter_fs => CodeMirror enter full-screen hot-key
+spf_codemirror_exit_fs => CodeMirror exit full-screen hot-key
 EOT;
-**/
 // End of textpack
 
 if (!defined('txpinterface'))
