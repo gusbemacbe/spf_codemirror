@@ -1,3 +1,6 @@
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
 (function() {
   var mode = CodeMirror.getMode({tabSize: 4}, "stex");
   function MT(name) { test.mode(name, mode, Array.prototype.slice.call(arguments, 1)); }
@@ -101,4 +104,20 @@
 
   MT("tagBracket",
      "[tag \\newcommand][bracket {][tag \\pop][bracket }]");
+
+  MT("inlineMathTagFollowedByNumber",
+     "[keyword $][tag \\pi][number 2][keyword $]");
+
+  MT("inlineMath",
+     "[keyword $][number 3][variable-2 x][tag ^][number 2.45]-[tag \\sqrt][bracket {][tag \\$\\alpha][bracket }] = [number 2][keyword $] other text");
+
+  MT("displayMath",
+     "More [keyword $$]\t[variable-2 S][tag ^][variable-2 n][tag \\sum] [variable-2 i][keyword $$] other text");
+
+  MT("mathWithComment",
+     "[keyword $][variable-2 x] [comment % $]",
+     "[variable-2 y][keyword $] other text");
+
+  MT("lineBreakArgument",
+    "[tag \\\\][bracket [[][atom 1cm][bracket ]]]");
 })();
