@@ -1,6 +1,6 @@
 <?php
 
-// This is a PLUGIN TEMPLATE.
+// This is a PLUGIN TEMPLATE for Textpattern CMS.
 
 // Copy this file to a new name like abc_myplugin.php.  Edit the code, then
 // run this file at the command line to produce a plugin for distribution:
@@ -17,7 +17,7 @@ $plugin['name'] = 'spf_codemirror';
 // 1 = Plugin help is in raw HTML.  Not recommended.
 # $plugin['allow_html_help'] = 1;
 
-$plugin['version'] = '0.8';
+$plugin['version'] = '0.9';
 $plugin['author'] = 'Simon Finch';
 $plugin['author_uri'] = 'https://github.com/spiffin/spf_codemirror';
 $plugin['description'] = 'CodeMirror syntax-highlighting + Emmet code-completion (HTML & CSS)';
@@ -31,10 +31,12 @@ $plugin['description'] = 'CodeMirror syntax-highlighting + Emmet code-completion
 $plugin['order'] = '9';
 
 // Plugin 'type' defines where the plugin is loaded
-// 0 = public       : only on the public side of the website (default)
-// 1 = public+admin : on both the public and admin side
-// 2 = library      : only when include_plugin() or require_plugin() is called
-// 3 = admin        : only on the admin side
+// 0 = public              : only on the public side of the website (default)
+// 1 = public+admin        : on both the public and admin side
+// 2 = library             : only when include_plugin() or require_plugin() is called
+// 3 = admin               : only on the admin side (no AJAX)
+// 4 = admin+ajax          : only on the admin side (AJAX supported)
+// 5 = public+admin+ajax   : on both the public and admin side (AJAX supported)
 $plugin['type'] = '3';
 
 // Plugin "flags" signal the presence of optional capabilities to the core plugin loader.
@@ -45,14 +47,25 @@ if (!defined('PLUGIN_LIFECYCLE_NOTIFY')) define('PLUGIN_LIFECYCLE_NOTIFY', 0x000
 
 $plugin['flags'] = '2';
 
-// Plugin 'textpack' - provides i18n strings to be used in conjunction with gTxt().
+// Plugin 'textpack' is optional. It provides i18n strings to be used in conjunction with gTxt().
+// Syntax:
+// ## arbitrary comment
+// #@event
+// #@language ISO-LANGUAGE-CODE
+// abc_string_name => Localized String
+
+/** Uncomment me, if you need a textpack
 $plugin['textpack'] = <<< EOT
-#@spf_codemirror
-spf_codemirror_theme => CodeMirror theme
-spf_codemirror_font_size => CodeMirror font size
-spf_codemirror_enter_fs => CodeMirror enter full-screen hot-key
-spf_codemirror_exit_fs => CodeMirror exit full-screen hot-key
+#@admin
+#@language en-gb
+abc_sample_string => Sample String
+abc_one_more => One more
+#@language de-de
+abc_sample_string => Beispieltext
+abc_one_more => Noch einer
 EOT;
+**/
+// End of textpack
 
 if (!defined('txpinterface'))
         @include_once('zem_tpl.php');
@@ -68,7 +81,7 @@ if (!defined('txpinterface'))
  *
  * Thanks to Marijn (CodeMirror), Sergey (Zen Coding/Emmet), Dale (mrd_codeMirror)
  *
- * Version 0.8 -- 22 January 2013
+ * Version 0.9 -- 13 October 2014
  */
 
 if (@txpinterface == 'admin') {
@@ -76,7 +89,7 @@ if (@txpinterface == 'admin') {
     register_callback('spf_codemirror_installprefs', 'plugin_lifecycle.spf_codemirror', 'installed');
     register_callback('spf_codemirror_removeprefs', 'plugin_lifecycle.spf_codemirror', 'deleted');
     register_callback('spf_textarea_html', 'page');
-    register_callback('spf_textarea_html', 'form');
+    register_callback('spf_textarea_php', 'form');
     register_callback('spf_textarea_css', 'css');
     register_callback('spf_textarea_js', 'spf_js');
     register_callback('spf_textarea_php', 'spf_ext');
@@ -361,11 +374,21 @@ echo $cm_js;
 
 /* PHP settings (Extensions > External Files -requires spf_ext) */
 // -------------------------------------------------------------
-function spf_textarea_php() {
+function spf_textarea_php($event) {
 global $prefs, $spf_cm_prefs;
 extract($spf_cm_prefs);
 $public_url = ihu;
 spf_textarea_common();
+
+$id = '';
+switch ($event) {
+	case 'spf_ext':
+		$id = 'spf_ext';
+		break;
+	case 'form':
+		$id = 'form';
+		break;
+}
 
 $mini = <<<EOF
 \n<script type="text/javascript" src="${public_url}min/b=codemirror/mode&amp;f=xml/xml.js,javascript/javascript.js,css/css.js,clike/clike.js,php/php.js"></script>
@@ -385,7 +408,7 @@ EOF;
 
 $cm_php = <<<EOF
 \n<script type="text/javascript">
-var editor = CodeMirror.fromTextArea(document.getElementById("spf_ext"), {
+var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
     lineWrapping: true,
     lineNumbers: true,
     matchBrackets: true,
@@ -563,17 +586,17 @@ font-size: 0.9em;
 <li>textpattern</li>
 </ul>
 <li>Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).</li>
-<li>NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'lib', 'mode' and 'theme' directories) with the addition of the minified emmet.min.js file from <a href="https://github.com/emmetio/emmet/downloads">Emmet-CodeMirror2</a> - for easy upgrade.</li>
+<li>NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'addon', 'lib', 'mode' and 'theme' directories) - with the addition of the minified emmet.min.js file from <a href="https://github.com/emmetio/codemirror">Emmet plugin</a> - for easy upgrade.</li>
 </ol>
 
 <br /><hr /><br />
 
 <h2>CodeMirror/Emmet upgrade</h2>
 <ol>
-<li>You can now easily upgrade CodeMirror (2.35 as of Nov 2012).</li>
+<li>You can now easily upgrade CodeMirror (4.6 as of September 2014).</li>
 <li><a href="http://codemirror.net/codemirror.zip">Download the latest release</a>.</li>
-<li>Unzip the download and upload the containing 'lib', 'mode' and 'theme' directories to the codemirror directory on your web server.</li>
-<li>To upgrade Emmet <a href="https://github.com/emmetio/emmet/downloads">download 'Emmet-CodeMirror2'</a>, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.</li>
+<li>Unzip the download and upload the containing 'addon', 'lib', 'mode' and 'theme' directories to the codemirror directory on your web server.</li>
+<li>To upgrade Emmet <a href="https://github.com/emmetio/codemirror/archive/master.zip">download the 'Emmet plugin'</a>, unzip it and upload the 'dist/emmet.min.js' file to your codemirror directory.</li>
 </ol>
 
 <br /><hr /><br />
@@ -600,11 +623,19 @@ font-size: 0.9em;
 
 <h2>Version history</h2>
 
+<p>0.9 - October 2014</p>
+<ul>
+<li>Changes for CodeMirror 4.6</li>
+</ul>
+
+<p>0.81 - February 2013</p>
+<ul>
+<li>Added PHP highlighting to Forms.</li>
+</ul>
+
 <p>0.8 - January 2013</p>
 <ul>
 <li>Changes for CodeMirror version 3.</li>
-<li>Match-highlighting feature (Pages, Forms & Javascript).</li>
-<li>Fixed search in full-screen mode.</li>
 </ul>
 
 

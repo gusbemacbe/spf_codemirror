@@ -32,16 +32,16 @@ h2. Installation
 ** sites
 ** textpattern
 # Install and activate the plugin (spf_codemirror.txt - inside the unzipped folder).
-# NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'lib', 'mode' and 'theme' directories) with the addition of the minified emmet.min.js file from Emmet-CodeMirror2 - for easy upgrade.
+# NOTE: the folder structure mirrors that of a standard CodeMirror download (just the 'addon', lib', 'mode' and 'theme' directories) with the addition of the minified emmet.min.js file "Emmet plugin":https://github.com/emmetio/codemirror - for easy upgrade.
 
 <hr />
 
 h2. CodeMirror/Emmet upgrade
 
-# You can now easily upgrade CodeMirror (3.1 as of March 2013).
+# You can now easily upgrade CodeMirror (4.6 as of September 2014).
 # "Download the latest release":http://codemirror.net/codemirror.zip.
-# Unzip the download and upload the containing 'lib', 'mode' and 'theme' directories to the codemirror directory on your web server.
-# To upgrade Emmet (Zen Coding) "download Emmet-CodeMirror2":https://github.com/emmetio/emmet/downloads, unzip it and upload the containing 'emmet.min.js' file to your codemirror directory.
+# Unzip the download and upload the containing 'addon', lib', 'mode' and 'theme' directories to the codemirror directory on your web server.
+# To upgrade Emmet (Zen Coding) "download the Emmet plugin for CodeMirror":https://github.com/emmetio/codemirror/archive/master.zip, unzip it and upload the 'dist/emmet.min.js' file to your codemirror directory.
 
 <hr />
 
@@ -63,6 +63,9 @@ h2. Emmet notes
 <hr />
 
 h2. Version history
+
+0.9 - October 2014
+* Changes for CodeMirror 4.6
 
 0.8 - January 2013
 * Changes for CodeMirror 3.1 & Emmet 1.3.3
