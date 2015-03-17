@@ -11,7 +11,9 @@ To install a Textpack for your own language:
 Note: Textpacks will be removed when you delete this plugin.
 
 #@spf_codemirror
+spf_codemirror_url => CodeMirror URL
 spf_codemirror_theme => CodeMirror theme
 spf_codemirror_font_size => CodeMirror font size
 spf_codemirror_enter_fs => CodeMirror enter full-screen hot-key
 spf_codemirror_exit_fs => CodeMirror exit full-screen hot-key
+spf_codemirror_emmet => CodeMirror enable Emmet
