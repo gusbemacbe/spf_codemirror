@@ -54,7 +54,6 @@ $plugin['flags'] = '2';
 // #@language ISO-LANGUAGE-CODE
 // abc_string_name => Localized String
 
-
 $plugin['textpack'] = <<< EOT
 #@admin
 #@spf_codemirror
@@ -66,7 +65,6 @@ spf_codemirror_font_size => CodeMirror font size
 spf_codemirror_theme => CodeMirror theme
 spf_codemirror_url => CodeMirror URL
 EOT;
-
 // End of textpack
 
 if (!defined('txpinterface'))
@@ -468,10 +466,10 @@ EOF;
 
 // Textpattern-specific css and js
 $cm_txp = <<<EOF
-<style>
+\n<style>
 /* Additional styles for Textpattern */
-.CodeMirror { font-size: $cm_fsize; }
-.CodeMirror { height: 39.256em; min-width: 54.876em; max-width: 78.264em; border: 1px solid; border-color: #bbb #ddd #ddd #bbb; }
+.CodeMirror { font-family: Menlo, Consolas, "Liberation Mono", monospace; font-size: $cm_fsize; height: 39.256em; min-width: 54.876em; max-width: 78.264em; border: 1px solid; border-color: #bbb #ddd #ddd #bbb; }
+.CodeMirror-fullscreen { z-index: 12; }
 </style>
 EOF;
 
@@ -482,7 +480,7 @@ echo $cm_txp;
 function spf_emmetjs() {
 global $prefs, $spf_cm_prefs;
 extract($spf_cm_prefs);
-	
+
   if(isset($prefs['spf_codemirror_emmet'])) {
     if ($cm_emmet == "0") {
 	return;
@@ -495,7 +493,7 @@ extract($spf_cm_prefs);
 function spf_editor() {
 global $prefs, $spf_cm_prefs;
 extract($spf_cm_prefs);
-	
+
   if(isset($prefs['spf_codemirror_emmet'])) {
     if ($cm_emmet == "0") {
 	return;
@@ -507,26 +505,6 @@ extract($spf_cm_prefs);
 # --- END PLUGIN CODE ---
 if (0) {
 ?>
-<!--
-# --- BEGIN PLUGIN CSS ---
-<style type="text/css">
-#plugin_container p,
-#plugin_container li,
-#plugin_container code {
-font-size: 11px;
-line-height: 130%;
-}
-#plugin_container li {
-padding-bottom: 8px;
-}
-#plugin_container .history p,
-#plugin_container .history li {
-font-size: 10px;
-line-height: 100%;
-}
-</style>
-# --- END PLUGIN CSS ---
--->
 <!--
 # --- BEGIN PLUGIN HELP ---
 h1. spf_codemirror
