@@ -71,7 +71,7 @@ if (!defined('txpinterface'))
         @include_once('zem_tpl.php');
 
 # --- BEGIN PLUGIN CODE ---
-/**
+/** <?php
  *
  * spf_codemirror - CodeMirror syntax-highlighting for Textpattern
  *
@@ -80,7 +80,7 @@ if (!defined('txpinterface'))
  * Licensed under GNU General Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Thanks to Marijn (CodeMirror), Sergey (Zen Coding/Emmet), Dale (mrd_codeMirror)
+ * Thanks to Marijn (CodeMirror), Sergey (Emmet), Dale (mrd_codeMirror)
  *
  * Version 1.0 -- March 2015
  */
@@ -101,14 +101,27 @@ if (@txpinterface == 'admin') {
 /* Prefs array */
 global $prefs, $spf_cm_prefs;
 if(isset($prefs['spf_codemirror_url'])) {
-	$spf_cm_prefs = array(
-		'cm_url' => $prefs['spf_codemirror_url'],
-		'cm_theme' => $prefs['spf_codemirror_theme'],
-		'cm_fsize' => $prefs['spf_codemirror_font_size'],
-		'cm_enterfs' => $prefs['spf_codemirror_enter_fs'],
-		'cm_exitfs' => $prefs['spf_codemirror_exit_fs'],
-		'cm_emmet' => $prefs['spf_codemirror_emmet'],
-	);
+	if (strpos($prefs['spf_codemirror_theme'],'solarized-') !== false) {
+		$spf_cm_prefs = array(
+			'cm_url' => $prefs['spf_codemirror_url'],
+			'cm_theme_class' => str_replace("-", " ", $prefs['spf_codemirror_theme']),
+			'cm_theme_css' => substr($prefs['spf_codemirror_theme'], 0, 9),
+			'cm_fsize' => $prefs['spf_codemirror_font_size'],
+			'cm_enterfs' => $prefs['spf_codemirror_enter_fs'],
+			'cm_exitfs' => $prefs['spf_codemirror_exit_fs'],
+			'cm_emmet' => $prefs['spf_codemirror_emmet'],
+		);
+	} else {
+		$spf_cm_prefs = array(
+			'cm_url' => $prefs['spf_codemirror_url'],
+			'cm_theme_class' => $prefs['spf_codemirror_theme'],
+			'cm_theme_css' => $prefs['spf_codemirror_theme'],
+			'cm_fsize' => $prefs['spf_codemirror_font_size'],
+			'cm_enterfs' => $prefs['spf_codemirror_enter_fs'],
+			'cm_exitfs' => $prefs['spf_codemirror_exit_fs'],
+			'cm_emmet' => $prefs['spf_codemirror_emmet'],
+		);
+	}
 }
 /* Set default prefs on install */
 // -------------------------------------------------------------
@@ -133,7 +146,7 @@ $default_url = ihu . "codemirror";
             'txp_prefs',
             "prefs_id=1,
             name='spf_codemirror_theme',
-            val='ambiance',
+            val='solarized-light',
             type=1,
             event='admin',
             html='text_input',
@@ -280,7 +293,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
     lineWrapping: true,
     lineNumbers: true,
     viewportMargin: Infinity,
-    theme: '$cm_theme',
+    theme: '$cm_theme_class',
     extraKeys: {
       '$cm_enterfs': function(cm) {
         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -323,7 +336,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("css"), {
     lineWrapping: true,
     lineNumbers: true,
     matchBrackets : true,
-    theme: '$cm_theme',
+    theme: '$cm_theme_class',
     viewportMargin: Infinity,
     extraKeys: {
       '$cm_enterfs': function(cm) {
@@ -365,7 +378,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("spf_js"), {
     lineWrapping: true,
     lineNumbers: true,
     matchBrackets: true,
-    theme: '$cm_theme',
+    theme: '$cm_theme_class',
     viewportMargin: Infinity,
     extraKeys: {
       '$cm_enterfs': function(cm) {
@@ -428,7 +441,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("$id"), {
     indentWithTabs: true,
     enterMode: 'keep',
     tabMode: 'shift',
-    theme: '$cm_theme',
+    theme: '$cm_theme_class',
     extraKeys: {
       '$cm_enterfs': function(cm) {
         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -458,7 +471,7 @@ extract($spf_cm_prefs);
 $cmfiles = <<<EOF
 \n<!-- spf_codemirror START -->
 <link href="$cm_url/lib/codemirror.css" rel="stylesheet" type="text/css" />
-<link href="$cm_url/theme/$cm_theme.css" rel="stylesheet" type="text/css" />
+<link href="$cm_url/theme/$cm_theme_css.css" rel="stylesheet" type="text/css" />
 <link href="$cm_url/addon/display/fullscreen.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="$cm_url/lib/codemirror.js"></script>
 <script type="text/javascript" src="$cm_url/addon/display/fullscreen.js"></script>
