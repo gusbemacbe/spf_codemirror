@@ -8,6 +8,12 @@ p. Customisable via preferences: choose a theme, font-size and full-screen hot-k
 
 <hr >
 
+h2. Screenshot
+
+!https://cloud.githubusercontent.com/assets/957157/6716534/1b268b72-cd9e-11e4-894a-48aed551702d.jpg!
+
+p. Screenshot of Plugin Composer using the solarized-light theme.
+
 h2. Features
 
 # Adds "CodeMirror":http://codemirror.net syntax-highlighting to textareas in Textpattern's Forms, Pages and Style tabs;
