@@ -14,10 +14,12 @@ h2. Screenshot
 
 p. Screenshot of Plugin Composer using the solarized-light theme.
 
+<hr />
+
 h2. Features
 
 # Adds "CodeMirror":http://codemirror.net syntax-highlighting to textareas in Textpattern's Forms, Pages and Style tabs;
-# Also to JavaScript tab ("spf_js":http://forum.textpattern.com/viewtopic.php?id=37849 required) and External Files tab ("spf_ext":http://forum.textpattern.com/viewtopic.php?id=38032 required);
+# Also to JavaScript tab ("spf_js":http://forum.textpattern.com/viewtopic.php?id=37849 required), Plugin Composer ("ied_plugin_composer":http://forum.textpattern.com/viewtopic.php?id=14898 required) and External Files tab ("spf_ext":http://forum.textpattern.com/viewtopic.php?id=38032 required);
 # Basic preferences via Admin > Preferences > Advanced;
 # Code-completion added to HTML & CSS  courtesy of "Emmet":http://docs.emmet.io.
 
