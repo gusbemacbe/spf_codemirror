@@ -53,7 +53,7 @@ h2. CodeMirror/Emmet upgrade
 
 # You can now easily upgrade CodeMirror (5.0 as of March 2015).
 # "Download the latest release":http://codemirror.net/codemirror.zip, unzip, and replace your old codemirror directory.
-# To upgrade Emmet, go to the "CodeMirror plugin repo":https://github.com/emmetio/codemirror, and follow the build instructions. Make sure the js file in minified and named emmet.min.js.
+# To upgrade Emmet, go to the "CodeMirror plugin repo":https://github.com/emmetio/codemirror, and follow the build instructions. Make sure the js file is minified and named emmet.min.js.
 # Upload emmet.min.js to the codemirror directory on your server - replacing your previous version.
 
 <hr />
