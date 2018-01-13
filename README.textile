@@ -1,5 +1,7 @@
 h1. spf_codemirror
 
+p. *This plugin is no longer being developed due to ill health. If anyone would like to take over, message me, and I'll transfer the source.*
+
 p. "CodeMirror":http://codemirror.net syntax-highlighting and "Emmet":http://docs.emmet.io code-completion plugin for Textpattern admin.
 
 p. Edit pages, forms, css, javascript (and more) full-screen, in your browser, with a choice of syntax-highlighting and code-completion.
